@@ -369,5 +369,43 @@
 
         doc.setFont("helvetica", "bold");
         doc.setTextColor(...AZUL_MARINHO);
-        ajustarFonte(doc, nome, 58, 1540);
-        doc.text(nome, W / 2, 645, { align: "
+        doc.text(nome, W / 2, 645, { align: "center" });
+
+        // Data de conclusão
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(26);
+        const dataHoje = formatarDataHoje();
+        doc.text(CFG.dataLabel + ": " + dataHoje, W / 2, 730, { align: "center" });
+
+        // Duração
+        doc.text(CFG.duracaoLabel + ": " + CFG.duracao, W / 2, 772, { align: "center" });
+
+        // Salvar PDF
+        doc.save(nomeArquivoSeguro(nome));
+
+        registrarCertificado(nome);
+
+        sucesso.style.display = "block";
+
+      } catch (e) {
+        console.error("Erro ao gerar PDF:", e);
+        mostrarErro(CFG.erroPDF);
+      }
+
+      botao.disabled = false;
+    }
+
+    // ── Event listeners ───────────────────────────────────────────────────────
+    botao.addEventListener("click", gerarCertificado);
+
+    nomeInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") gerarCertificado();
+    });
+
+    // ── Inicialização ────────────────────────────────────────────────────────
+    aplicarTextos();
+    prepararModelo();
+
+  </script>
+</body>
+</html>

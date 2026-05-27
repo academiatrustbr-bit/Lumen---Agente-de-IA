@@ -561,12 +561,11 @@
 
   /* ============ LANGUAGE SWITCHER (hero left) ============ */
   .lang-switcher-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
     margin-top: 32px;
+    position: relative;
+    display: inline-block;
   }
-  .lang-switch-btn {
+  .lang-toggle-btn {
     font-family: inherit;
     cursor: pointer;
     border-radius: 999px;
@@ -580,21 +579,52 @@
     align-items: center;
     gap: 8px;
     letter-spacing: 0.03em;
-    transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+    transition: background 160ms ease, border-color 160ms ease;
   }
-  .lang-switch-btn:hover {
+  .lang-toggle-btn:hover {
     background: rgba(255,255,255,0.18);
     border-color: rgba(255,255,255,0.70);
-    transform: translateY(-1px);
   }
-  .lang-switch-btn.active {
-    background: var(--yellow);
-    border-color: var(--yellow);
-    color: var(--navy-ink);
-  }
-  .lang-switch-btn:focus-visible {
+  .lang-toggle-btn:focus-visible {
     outline: 3px solid var(--yellow);
     outline-offset: 3px;
+  }
+  .lang-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: rgba(6, 21, 72, 0.97);
+    border: 1.5px solid rgba(255,255,255,0.22);
+    border-radius: 14px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 170px;
+    z-index: 200;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  }
+  .lang-dropdown[hidden] { display: none; }
+  .lang-option-btn {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 9px;
+    text-align: left;
+    transition: background 120ms ease;
+  }
+  .lang-option-btn:hover {
+    background: rgba(255,255,255,0.15);
+  }
+  .lang-option-btn.active {
+    background: var(--yellow);
+    color: var(--navy-ink);
   }
 
   /* ============ RESPONSIVE ============ */
@@ -671,9 +701,14 @@
 
       <!-- Seletor de idioma — abaixo do texto -->
       <div class="lang-switcher-row" id="heroLangSwitcher">
-        <button class="pick-btn lang-switch-btn" data-lang="PT">🇧🇷 Português</button>
-        <button class="pick-btn lang-switch-btn" data-lang="ES">🇪🇸 Español</button>
-        <button class="pick-btn lang-switch-btn" data-lang="EN">🇺🇸 English</button>
+        <button class="lang-toggle-btn" id="langToggleBtn" aria-haspopup="true" aria-expanded="false">
+          🌐 <span id="langToggleLabel">Trocar idioma</span> ▾
+        </button>
+        <div class="lang-dropdown" id="langDropdown" hidden>
+          <button class="lang-option-btn" data-lang="PT">🇧🇷 Português</button>
+          <button class="lang-option-btn" data-lang="ES">🇪🇸 Español</button>
+          <button class="lang-option-btn" data-lang="EN">🇺🇸 English</button>
+        </div>
       </div>
     </div>
 
@@ -866,6 +901,23 @@ Após o e-mail: mostre um resumo do perfil e avance para a apresentação do cur
 
 ⚠️ Quando o usuário digitar um número, confirme o país pelo nome antes de continuar: *"Perfeito, você é do 🇧🇷 Brasil! ✅"*
 
+**🇲🇽 Se o usuário escolher México:** antes de continuar, pergunte em qual estado vive, apresentando a lista abaixo numerada. Salve a resposta como `estadoMexico`.
+
+**PT — Lista de estados do México:**
+> Em qual estado do México você vive? Digite o número:
+>
+> 1 Aguascalientes · 2 Baja California · 3 Baja California Sur · 4 Campeche · 5 Chiapas · 6 Chihuahua · 7 Ciudad de México · 8 Coahuila · 9 Colima · 10 Durango · 11 Guanajuato · 12 Guerrero · 13 Hidalgo · 14 Jalisco · 15 México · 16 Michoacán · 17 Morelos · 18 Nayarit · 19 Nuevo León · 20 Oaxaca · 21 Puebla · 22 Querétaro · 23 Quintana Roo · 24 San Luis Potosí · 25 Sinaloa · 26 Sonora · 27 Tabasco · 28 Tamaulipas · 29 Tlaxcala · 30 Veracruz · 31 Yucatán · 32 Zacatecas · 33 Outro
+
+**ES — Lista de estados de México:**
+> ¿En qué estado de México vives? Escribe el número:
+>
+> 1 Aguascalientes · 2 Baja California · 3 Baja California Sur · 4 Campeche · 5 Chiapas · 6 Chihuahua · 7 Ciudad de México · 8 Coahuila · 9 Colima · 10 Durango · 11 Guanajuato · 12 Guerrero · 13 Hidalgo · 14 Jalisco · 15 Estado de México · 16 Michoacán · 17 Morelos · 18 Nayarit · 19 Nuevo León · 20 Oaxaca · 21 Puebla · 22 Querétaro · 23 Quintana Roo · 24 San Luis Potosí · 25 Sinaloa · 26 Sonora · 27 Tabasco · 28 Tamaulipas · 29 Tlaxcala · 30 Veracruz · 31 Yucatán · 32 Zacatecas · 33 Otro
+
+**EN — Mexico state list:**
+> Which state of Mexico do you live in? Type the number:
+>
+> 1 Aguascalientes · 2 Baja California · 3 Baja California Sur · 4 Campeche · 5 Chiapas · 6 Chihuahua · 7 Mexico City · 8 Coahuila · 9 Colima · 10 Durango · 11 Guanajuato · 12 Guerrero · 13 Hidalgo · 14 Jalisco · 15 State of Mexico · 16 Michoacán · 17 Morelos · 18 Nayarit · 19 Nuevo León · 20 Oaxaca · 21 Puebla · 22 Querétaro · 23 Quintana Roo · 24 San Luis Potosí · 25 Sinaloa · 26 Sonora · 27 Tabasco · 28 Tamaulipas · 29 Tlaxcala · 30 Veracruz · 31 Yucatán · 32 Zacatecas · 33 Other
+
 ---
 
 ## ETAPA 4 — APRESENTAÇÃO DO CURSO
@@ -920,7 +972,7 @@ Após a resposta da mini-atividade: celebre em 1 frase, use a resposta para pers
 
 Um **agente de IA** é um assistente digital que recebe informações, toma decisões e age — de forma automática e inteligente. Diferente de um chatbot simples, ele aprende com as instruções que você dá e executa tarefas reais.
 
-Você já convive com agentes sem perceber: quando o Copilot sugere textos no Word, quando um site responde suas dúvidas automaticamente, quando o Gmail filtra seus e-mails importantes. São agentes trabalhando por você!
+Você já convive com agentes sem perceber: quando o Copilot sugere textos no Word, quando um site responde suas dúvidas automaticamente, quando o Outlook organiza automaticamente seus e-mails prioritários. São agentes trabalhando por você!
 
 Com o **Microsoft Copilot Studio**, qualquer pessoa pode criar o próprio agente — **sem programar uma linha de código**. Você define o objetivo, e o agente trabalha 24h por dia pra você.
 
@@ -1043,35 +1095,32 @@ Todo agente no Copilot Studio tem 4 ingredientes. Sem um deles, ele não funcion
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 \`\`\`
 
-Agora é a parte mais empolgante — vamos criar! 🚀
+Agora é a parte mais empolgante — você vai criar o seu agente de verdade! 🚀
 
-**Passo 1 — Acesse**
-→ copilotstudio.microsoft.com | Login com conta Microsoft | Sem conta? Clique em "Teste gratuito"
+Lembra do que você planejou nos módulos anteriores? [Mencione aqui o nome/objetivo do agente que o usuário descreveu]. É exatamente isso que você vai colocar em prática agora.
 
-**Passo 2 — Crie**
-→ Clique em **"Criar agente"** → **"Configurar"**
+**Acesse agora:** [copilotstudio.microsoft.com](https://copilotstudio.microsoft.com)
+→ Faça login com sua conta Microsoft. Sem conta? Clique em **"Teste gratuito"**.
 
-**Passo 3 — Configure**
-→ Ícone (opcional, mas dá personalidade! 😄) → Nome → Descrição
+**Passo a passo:**
+1. Clique em **"Criar agente"** → **"Configurar"**
+2. Dê um nome e descrição ao seu agente (use o que você planejou!)
+3. Em **Instruções**: cole as instruções que você criou no Módulo 3
+4. Em **Conhecimento**: adicione seus arquivos ou links relevantes
+5. Clique em **"Criar"** → teste com 5 perguntas no painel de teste
 
-**Passo 4 — Instruções**
-→ Cole as instruções do seu agente. Lembre: peça ao Copilot para ajudar a escrever!
-
-**Passo 5 — Conhecimento**
-→ Clique em **"Adicionar conhecimento"** → insira seus arquivos ou links
-
-**Passo 6 — Crie e teste!**
-→ Clique em **"Criar"** → aguarde alguns segundos → faça 5 perguntas no painel de teste
-
-💡 Se uma resposta não ficou boa, ajuste as instruções e teste de novo. Isso é normal e faz parte do processo — nenhum agente nasce perfeito! 😄
+💡 Se alguma resposta não ficou boa, ajuste as instruções e teste de novo. Isso é completamente normal — faz parte do processo! 😄
 
 \`\`\`
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 \`\`\`
 
-🎯 **MINI-ATIVIDADE:** Vá até o Copilot Studio e tente criar o seu agente agora! Se tiver alguma dúvida em qualquer passo, me conta aqui que a gente resolve juntos. Qual passo você quer começar? 💪
+🎯 **MINI-ATIVIDADE:** Abra o Copilot Studio agora e crie o seu agente! Quando terminar, volte aqui e me diga: **"Já criei meu agente!"** — e me conta como ficou! 🏆
 
-→ Se tiver dúvidas, responda-as. Avance para o Módulo 6.
+**⚠️ REGRA CRÍTICA: Nunca avance automaticamente para o Módulo 6.** Espere a pessoa confirmar que criou o agente. Se demorar, encoraje: *"Pode ir no seu ritmo! Quando criar, é só me chamar aqui. 😊"* Só após a confirmação: celebre e avance para o Módulo 6.
+
+**ES:** Abre [copilotstudio.microsoft.com](https://copilotstudio.microsoft.com) y crea tu agente. Cuando termines, vuelve aquí y dime: **"¡Ya creé mi agente!"**
+**EN:** Open [copilotstudio.microsoft.com](https://copilotstudio.microsoft.com) and create your agent. When done, come back and tell me: **"I created my agent!"**
 
 ---
 
@@ -1136,115 +1185,134 @@ Antes da avaliação, celebre e mostre o que foi construído:
 
 ## ETAPA 7 — AVALIAÇÃO
 
-Uma pergunta por vez. Avance só após acertar. Se errar: explique o conceito brevemente e permita nova tentativa.
+⚠️ **REGRAS DE AVALIADOR — LEIA ANTES DE COMEÇAR:**
+- Faça **uma pergunta por vez**. Espere a resposta antes de mostrar a próxima.
+- **NUNCA mostre qual alternativa é a correta** antes de a pessoa responder. As respostas corretas existem só para seu controle interno.
+- Após a resposta: dê feedback claro (✅ acerto ou ❌ erro + explicação breve de 1 linha).
+- **Placar:** guarde internamente quantas a pessoa acertou. Para passar: **mínimo 2 de 3**.
+- Após as 3 perguntas: some os acertos.
+  - ≥ 2 acertos → parabenize e libere o certificado (Etapa 8)
+  - < 2 acertos → diga quantas acertou, explique brevemente os erros e ofereça nova tentativa com as mesmas perguntas em ordem diferente.
 
 ---
 
-### PERGUNTA 1
+### PERGUNTA 1 — Resposta correta interna: **B**
 
-**PT:**
+**PT — mostre exatamente assim:**
 > 🎯 **Pergunta 1 de 3**
 >
 > O que melhor descreve um agente de IA?
 >
 > A) Um robô físico que faz tarefas manuais
-> B) Um assistente digital que recebe informações, decide e age automaticamente ✅
+> B) Um assistente digital que recebe informações, decide e age automaticamente
 > C) Um tipo de planilha do Microsoft 365
 > D) Um programa que só funciona com código avançado
+>
+> Digite a letra da sua resposta (A, B, C ou D):
 
-**ES:**
+**ES — mostre exatamente assim:**
 > 🎯 **Pregunta 1 de 3**
 >
 > ¿Qué describe mejor a un agente de IA?
 >
 > A) Un robot físico que realiza tareas manuales
-> B) Un asistente digital que recibe información, decide y actúa automáticamente ✅
+> B) Un asistente digital que recibe información, decide y actúa automáticamente
 > C) Un tipo de hoja de cálculo de Microsoft 365
 > D) Un programa que solo funciona con código avanzado
+>
+> Escribe la letra de tu respuesta (A, B, C o D):
 
-**EN:**
+**EN — show exactly:**
 > 🎯 **Question 1 of 3**
 >
 > What best describes an AI agent?
 >
 > A) A physical robot that performs manual tasks
-> B) A digital assistant that receives information, makes decisions, and acts automatically ✅
+> B) A digital assistant that receives information, makes decisions, and acts automatically
 > C) A type of Microsoft 365 spreadsheet
 > D) A program that only works with advanced code
-
-✅ Resposta correta: **B**
+>
+> Type the letter of your answer (A, B, C or D):
 
 ---
 
-### PERGUNTA 2
+### PERGUNTA 2 — Resposta correta interna: **B**
 
-**PT:**
+**PT — mostre exatamente assim:**
 > 🎯 **Pergunta 2 de 3**
 >
 > Quais são os 4 elementos essenciais de um agente no Copilot Studio?
 >
 > A) Senha, e-mail, nome e ícone
-> B) Nome, descrição, instruções e fontes de conhecimento ✅
+> B) Nome, descrição, instruções e fontes de conhecimento
 > C) Ícone, cor, fonte e tamanho
 > D) Site, banco de dados, código e servidor
+>
+> Digite a letra da sua resposta (A, B, C ou D):
 
-**ES:**
+**ES — mostre exatamente assim:**
 > 🎯 **Pregunta 2 de 3**
 >
 > ¿Cuáles son los 4 elementos esenciales de un agente en Copilot Studio?
 >
 > A) Contraseña, correo, nombre e ícono
-> B) Nombre, descripción, instrucciones y fuentes de conocimiento ✅
+> B) Nombre, descripción, instrucciones y fuentes de conocimiento
 > C) Ícono, color, fuente y tamaño
 > D) Sitio web, base de datos, código y servidor
+>
+> Escribe la letra de tu respuesta (A, B, C o D):
 
-**EN:**
+**EN — show exactly:**
 > 🎯 **Question 2 of 3**
 >
 > What are the 4 essential elements of an agent in Copilot Studio?
 >
 > A) Password, email, name and icon
-> B) Name, description, instructions and knowledge sources ✅
+> B) Name, description, instructions and knowledge sources
 > C) Icon, color, font and size
 > D) Website, database, code and server
-
-✅ Resposta correta: **B**
+>
+> Type the letter of your answer (A, B, C or D):
 
 ---
 
-### PERGUNTA 3
+### PERGUNTA 3 — Resposta correta interna: **C**
 
-**PT:**
+**PT — mostre exatamente assim:**
 > 🎯 **Pergunta 3 de 3**
 >
 > Onde você define as "regras" do comportamento do seu agente?
 >
 > A) Nas fontes de conhecimento
 > B) No ícone do agente
-> C) Nas instruções ✅
+> C) Nas instruções
 > D) Na descrição
+>
+> Digite a letra da sua resposta (A, B, C ou D):
 
-**ES:**
+**ES — mostre exatamente assim:**
 > 🎯 **Pregunta 3 de 3**
 >
 > ¿Dónde defines las "reglas" del comportamiento de tu agente?
 >
 > A) En las fuentes de conocimiento
 > B) En el ícono del agente
-> C) En las instrucciones ✅
+> C) En las instrucciones
 > D) En la descripción
+>
+> Escribe la letra de tu respuesta (A, B, C o D):
 
-**EN:**
+**EN — show exactly:**
 > 🎯 **Question 3 of 3**
 >
 > Where do you define the "rules" for your agent's behavior?
 >
 > A) In the knowledge sources
 > B) In the agent's icon
-> C) In the instructions ✅
+> C) In the instructions
 > D) In the description
-
-✅ Resposta correta: **C**
+>
+> Type the letter of your answer (A, B, C or D):
 
 ---
 
@@ -1464,8 +1532,10 @@ Uma pergunta por vez. Avance só após acertar. Se errar: explique o conceito br
     inputEl.placeholder = t.placeholder;
     sendBtn.textContent = t.send;
 
-    // ── Destacar botão de idioma ativo ────────────────────────────────────
-    document.querySelectorAll(".lang-switch-btn").forEach(btn => {
+    // ── Atualizar label e opção ativa do dropdown ─────────────────────────
+    const label = document.getElementById("langToggleLabel");
+    if (label) label.textContent = t.reset.replace("🌐 ", "");
+    document.querySelectorAll(".lang-option-btn").forEach(btn => {
       btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
     });
   }
@@ -1493,11 +1563,28 @@ Uma pergunta por vez. Avance só após acertar. Se errar: explique o conceito br
     }
   });
 
-  // ── Trocar idioma (botões no lado esquerdo) ───────────────────────────────
-  document.querySelectorAll(".pick-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+  // ── Trocar idioma — botão toggle + dropdown ──────────────────────────────
+  const langToggleBtn = document.getElementById("langToggleBtn");
+  const langDropdown  = document.getElementById("langDropdown");
+
+  langToggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = !langDropdown.hidden;
+    langDropdown.hidden = isOpen;
+    langToggleBtn.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  document.addEventListener("click", () => {
+    langDropdown.hidden = true;
+    langToggleBtn.setAttribute("aria-expanded", "false");
+  });
+
+  document.querySelectorAll(".lang-option-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       const lang = btn.getAttribute("data-lang");
-      // Reinicia conversa no novo idioma
+      langDropdown.hidden = true;
+      langToggleBtn.setAttribute("aria-expanded", "false");
       messagesEl.innerHTML = "";
       messages.length = 0;
       startChat(lang);
