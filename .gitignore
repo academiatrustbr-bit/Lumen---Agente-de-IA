@@ -9,3 +9,7 @@ desktop.ini
 # Logs e temporários
 *.log
 *.tmp
+
+# Versões antigas do site (contêm chaves expostas)
+Sitio agente IA/
+Sitio agente IA.zip
