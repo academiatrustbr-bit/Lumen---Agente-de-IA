@@ -1548,8 +1548,8 @@ Antes da avaliação, celebre e mostre o que foi construído:
     sendToAgent("IDIOMA:" + lang, { silent: true });
   }
 
-  // Inicia com o idioma detectado
-  window.addEventListener("DOMContentLoaded", () => startChat(currentLang));
+  // Inicia com o idioma detectado (script já está no final do body — DOM pronto)
+  startChat(currentLang);
 
   // ── Alerta ao tentar fechar / recarregar a aba ────────────────────────────
   // Só ativa depois que o usuário enviou pelo menos uma mensagem real
