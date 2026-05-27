@@ -1,0 +1,11 @@
+# Arquivos de lock do LibreOffice
+.~lock.*#
+
+# Arquivos de sistema macOS / Windows
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs e temporários
+*.log
+*.tmp

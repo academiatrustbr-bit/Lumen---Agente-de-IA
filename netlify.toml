@@ -1,0 +1,13 @@
+# ╔══════════════════════════════════════════════════════════════╗
+# ║   NETLIFY CONFIG — Lumen · The Trust for the Americas        ║
+# ╚══════════════════════════════════════════════════════════════╝
+
+[build]
+  publish = "deploy"          # pasta com o index.html e assets
+  functions = "netlify/functions"  # pasta com os proxies serverless
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type"

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerar certificado</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #052a66 0%, #006dd8 45%, #14c7da 100%);
+      color: #fff;
+    }
+    .card {
+      width: 100%;
+      max-width: 680px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 22px;
+      padding: 38px 34px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+      backdrop-filter: blur(10px);
+    }
+    .trophy { font-size: 3.4rem; display: block; margin-bottom: 12px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.55rem, 4vw, 2rem);
+      line-height: 1.15;
+      font-weight: 800;
+    }
+    .sub {
+      margin: 0 auto 24px;
+      max-width: 560px;
+      font-size: 1rem;
+      line-height: 1.5;
+      opacity: 0.9;
+    }
+    .course-pill {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    label {
+      display: block;
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto 8px;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    input {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 16px;
+      padding: 15px 16px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 12px;
+      outline: none;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      font-size: 1rem;
+    }
+    input::placeholder { color: rgba(255, 255, 255, 0.58); }
+    input:focus {
+      border-color: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.23);
+    }
+    button {
+      width: 100%;
+      max-width: 500px;
+      border: none;
+      border-radius: 999px;
+      padding: 15px 24px;
+      background: #fff;
+      color: #07346f;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22); }
+    button:disabled { opacity: 0.58; cursor: wait; transform: none; box-shadow: none; }
+    .hint {
+      margin: 14px 0 0;
+      font-size: 0.82rem;
+      opacity: 0.75;
+      line-height: 1.4;
+    }
+    .langs {
+      margin: 18px auto 0;
+      font-size: 0.82rem;
+      opacity: .86;
+    }
+    .langs a { color: #fff; font-weight: 700; text-decoration: underline; margin: 0 5px; }
+    .error, .success {
+      display: none;
+      max-width: 500px;
+      margin: 14px auto 0;
+      padding: 11px 12px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+    .error { background: rgba(176, 0, 32, 0.38); }
+    .success { background: rgba(0, 115, 70, 0.38); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <span class="trophy" aria-hidden="true">🏆</span>
+    <h1 id="titulo">Gerar certificado</h1>
+    <p class="sub" id="subtitulo">Digite abaixo o nome que deve aparecer no certificado. Em seguida, clique para baixar o PDF.</p>
+    <div class="course-pill" id="curso-pill"></div>
+
+    <label for="nome" id="label-nome">Nome para o certificado</label>
+    <input id="nome" type="text" autocomplete="name" placeholder="Ex: Maria Silva" />
+    <button id="baixar" type="button" disabled>Carregando modelo...</button>
+    <p class="hint" id="hint">O certificado será gerado com a data de hoje e duração de 45 minutos.</p>
+    <div id="erro" class="error"></div>
+    <div id="sucesso" class="success"></div>
+    <div class="langs" id="langs"></div>
+  </main>
+
+  <script>
+    // Se você reimplantar o Apps Script e a URL mudar, atualize esta linha.
+    // Se não quiser registrar na planilha, deixe vazio: const APPS_SCRIPT_URL = "";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVOD7Uh7aCZ4PQvtDR9iSGhKokw2zS-l1z0FvjKDTyVemf67vo-M3FrJWQIKGiu_Vd/exec";
+
+    const W = 1920;
+    const H = 1080;
+    const AZUL_MARINHO = [0, 45, 105];
+
+    const TEXTOS = {
+      pt: {
+        htmlLang: "pt-BR",
+        tituloPagina: "Gerar certificado",
+        subtitulo: "Digite abaixo o nome que deve aparecer no certificado. Em seguida, clique para baixar o PDF.",
+        labelNome: "Nome para o certificado",
+        placeholder: "Ex: Maria Silva",
+        carregando: "Carregando modelo...",
+        baixar: "📄 Baixar certificado em PDF",
+        modeloIndisponivel: "Modelo indisponível",
+        erroModelo: "Não consegui carregar o modelo do certificado. Verifique se a pasta assets foi enviada junto com esta página.",
+        erroNome: "Digite o nome que deve aparecer no certificado.",
+        erroCarregando: "O modelo ainda está carregando. Aguarde alguns segundos e tente novamente.",
+        erroPDF: "Não foi possível gerar o PDF neste navegador. Tente novamente em uma nova aba ou em outro navegador.",
+        sucesso: "Certificado gerado. Verifique sua pasta de downloads.",
+        hint: "O certificado será gerado com a data de hoje e duração de 45 minutos.",
+        curso: "Crie o seu Agente de IA Pessoal com Microsoft Copilot Studio",
+        modelo: "assets/certificado-agente-pt.png",
+        arquivoBase: "certificado-agente-ia-copilot-studio-pt.pdf",
+        dataLabel: "Data de conclusão",
+        duracaoLabel: "Duração",
+        duracao: "45 minutos",
+        meses: ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"],
+        langLinks: "Outros idiomas"
+      },
+      es: {
+        htmlLang: "es",
+        tituloPagina: "Generar certificado",
+        subtitulo: "Escribe abajo el nombre que debe aparecer en el certificado. Luego, haz clic para descargar el PDF.",
+        labelNome: "Nombre para el certificado",
+        placeholder: "Ej.: María Silva",
+        carregando: "Cargando modelo...",
+        baixar: "📄 Descargar certificado en PDF",
+        modeloIndisponivel: "Modelo no disponible",
+        erroModelo: "No pude cargar el modelo del certificado. Verifica que la carpeta assets haya sido enviada junto con esta página.",
+        erroNome: "Escribe el nombre que debe aparecer en el certificado.",
+        erroCarregando: "El modelo todavía se está cargando. Espera unos segundos e inténtalo nuevamente.",
+        erroPDF: "No fue posible generar el PDF en este navegador. Inténtalo nuevamente en una pestaña nueva o en otro navegador.",
+        sucesso: "Certificado generado. Revisa tu carpeta de descargas.",
+        hint: "El certificado se generará con la fecha de hoy y una duración de 45 minutos.",
+        curso: "Crea tu Agente de IA Personal con Microsoft Copilot Studio",
+        modelo: "assets/certificado-agente-es.png",
+        arquivoBase: "certificado-agente-ia-copilot-studio-es.pdf",
+        dataLabel: "Fecha de finalización",
+        duracaoLabel: "Duración",
+        duracao: "45 minutos",
+        meses: ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],
+        langLinks: "Otros idiomas"
+      },
+      en: {
+        htmlLang: "en",
+        tituloPagina: "Generate certificate",
+        subtitulo: "Enter the name that should appear on the certificate. Then click to download the PDF.",
+        labelNome: "Name for the certificate",
+        placeholder: "Example: Maria Silva",
+        carregando: "Loading template...",
+        baixar: "📄 Download certificate as PDF",
+        modeloIndisponivel: "Template unavailable",
+        erroModelo: "I could not load the certificate template. Make sure the assets folder was uploaded with this page.",
+        erroNome: "Enter the name that should appear on the certificate.",
+        erroCarregando: "The template is still loading. Wait a few seconds and try again.",
+        erroPDF: "It was not possible to generate the PDF in this browser. Try again in a new tab or in another browser.",
+        sucesso: "Certificate generated. Check your downloads folder.",
+        hint: "The certificate will be generated with today’s date and a duration of 45 minutes.",
+        curso: "Build your Personal AI Agent with Microsoft Copilot Studio",
+        modelo: "assets/certificado-agente-en.png",
+        arquivoBase: "certificate-personal-ai-agent-copilot-studio-en.pdf",
+        dataLabel: "Completion date",
+        duracaoLabel: "Duration",
+        duracao: "45 minutes",
+        meses: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+        langLinks: "Other languages"
+      }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const langParam = (params.get("lang") || "pt").toLowerCase();
+    const LANG = TEXTOS[langParam] ? langParam : "pt";
+    const CFG = TEXTOS[LANG];
+
+    document.documentElement.lang = CFG.htmlLang;
+    document.title = CFG.tituloPagina + " - " + CFG.curso;
+
+    const nomeInput = document.getElementById("nome");
+    const botao = document.getElementById("baixar");
+    const erro = document.getElementById("erro");
+    const sucesso = document.getElementById("sucesso");
+
+    let modeloDataURL = null;
+
+    function aplicarTextos() {
+      document.getElementById("titulo").textContent = CFG.tituloPagina;
+      document.getElementById("subtitulo").textContent = CFG.subtitulo;
+      document.getElementById("curso-pill").textContent = CFG.curso;
+      document.getElementById("label-nome").textContent = CFG.labelNome;
+      nomeInput.placeholder = CFG.placeholder;
+      botao.textContent = CFG.carregando;
+      document.getElementById("hint").textContent = CFG.hint;
+      sucesso.textContent = CFG.sucesso;
+      document.getElementById("langs").innerHTML = `${CFG.langLinks}: <a href="?lang=pt">PT</a> · <a href="?lang=es">ES</a> · <a href="?lang=en">EN</a>`;
+    }
+
+    function mostrarErro(msg) {
+      sucesso.style.display = "none";
+      erro.textContent = msg;
+      erro.style.display = "block";
+    }
+
+    function limparMensagens() {
+      erro.textContent = "";
+      erro.style.display = "none";
+      sucesso.style.display = "none";
+    }
+
+    function formatarDataHoje() {
+      const d = new Date();
+      const dia = d.getDate();
+      const mes = CFG.meses[d.getMonth()];
+      const ano = d.getFullYear();
+      if (LANG === "en") return `${mes} ${dia}, ${ano}`;
+      return `${dia} de ${mes} de ${ano}`;
+    }
+
+    function nomeArquivoSeguro(nome) {
+      const limpo = nome
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase();
+      return CFG.arquivoBase.replace(".pdf", limpo ? `-${limpo}.pdf` : ".pdf");
+    }
+
+    function carregarImagemComoDataURL(url) {
+      // Tenta via Image() element (mais compatível que fetch para PNG grandes)
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = function() {
+          try {
+            const canvas = document.createElement("canvas");
+            canvas.width = img.naturalWidth || img.width;
+            canvas.height = img.naturalHeight || img.height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            resolve(canvas.toDataURL("image/png"));
+          } catch(e) {
+            // Fallback: fetch
+            fetch(url)
+              .then(r => r.blob())
+              .then(blob => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+              })
+              .catch(reject);
+          }
+        };
+        img.onerror = function() {
+          reject(new Error("Não foi possível carregar a imagem do certificado."));
+        };
+        img.src = url + "?v=" + Date.now(); // evita cache problemático
+      });
+    }
+
+    function ajustarFonte(doc, texto, tamanhoInicial, larguraMaxima) {
+      let tamanho = tamanhoInicial;
+      doc.setFontSize(tamanho);
+      while (doc.getTextWidth(texto) > larguraMaxima && tamanho > 26) {
+        tamanho -= 2;
+        doc.setFontSize(tamanho);
+      }
+      return tamanho;
+    }
+
+    function registrarCertificado(nome) {
+      if (!APPS_SCRIPT_URL) return;
+      const payload = {
+        tipo: "certificado",
+        acao: "download",
+        idioma: LANG,
+        curso: CFG.curso,
+        nomeCertificado: nome,
+        dataConclusao: new Date().toISOString(),
+        origem: window.location.href,
+        userAgent: navigator.userAgent
+      };
+
+      try {
+        fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        }).catch(function() {});
+      } catch (e) {
+        console.warn("Registro do certificado não enviado.", e);
+      }
+    }
+
+    async function prepararModelo() {
+      try {
+        modeloDataURL = await carregarImagemComoDataURL(CFG.modelo);
+        botao.disabled = false;
+        botao.textContent = CFG.baixar;
+      } catch (e) {
+        botao.textContent = CFG.modeloIndisponivel;
+        mostrarErro(CFG.erroModelo);
+      }
+    }
+
+    function gerarCertificado() {
+      limparMensagens();
+
+      const nome = nomeInput.value.trim().replace(/\s+/g, " ");
+      if (!nome) {
+        mostrarErro(CFG.erroNome);
+        nomeInput.focus();
+        return;
+      }
+      if (!modeloDataURL) {
+        mostrarErro(CFG.erroCarregando);
+        return;
+      }
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          orientation: "landscape",
+          unit: "pt",
+          format: [W, H],
+          compress: true
+        });
+
+        doc.addImage(modeloDataURL, "PNG", 0, 0, W, H);
+
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...AZUL_MARINHO);
+        ajustarFonte(doc, nome, 58, 1540);
+        doc.text(nome, W / 2, 645, { align: "center" });
+
+        const info = `${CFG.dataLabel}: ${formatarDataHoje()}  •  ${CFG.duracaoLabel}: ${CFG.duracao}`;
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(...AZUL_MARINHO);
+        doc.setFontSize(30);
+        doc.text(info, W / 2, 970, { align: "center" });
+
+        registrarCertificado(nome);
+        doc.save(nomeArquivoSeguro(nome));
+        sucesso.style.display = "block";
+      } catch (e) {
+        console.error(e);
+        mostrarErro(CFG.erroPDF);
+      }
+    }
+
+    botao.addEventListener("click", gerarCertificado);
+    nomeInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") gerarCertificado();
+    });
+
+    aplicarTextos();
+    prepararModelo();
+  </script>
+</body>
+</html>

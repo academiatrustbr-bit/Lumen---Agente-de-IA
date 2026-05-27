@@ -1,0 +1,1675 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumen · Cursos IA · The Trust for the Americas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:        #0a206b;          /* deep institutional navy (matches reference) */
+    --navy-deep:   #061548;
+    --navy-ink:    #04102f;
+    --orange:      #ee7e2c;          /* Trust orange */
+    --yellow:      #ffcb00;          /* hero pill / italic tagline */
+    --yellow-soft: #ffe066;
+    --white:       #ffffff;
+    --lavender:    #efedf7;          /* light section bg (matches cursos / webinars) */
+    --lavender-2:  #e6e3f0;
+    --ink:         #11183d;          /* body text on light */
+    --ink-2:       #4a5275;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    color: var(--white);
+    background: var(--navy);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  .serif-ital {
+    font-family: 'Playfair Display', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* ============ HERO SECTION ============ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background:
+      linear-gradient(180deg, rgba(10,32,107,0.0) 0%, rgba(10,32,107,0.55) 90%, var(--navy) 100%),
+      url("assets/bg-texture.png") center/cover no-repeat,
+      var(--navy);
+    display: flex;
+    flex-direction: column;
+    color: var(--white);
+    overflow: hidden;
+  }
+
+  .header-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 28px 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .logos-lockup {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: nowrap;
+  }
+  .logos-lockup .divider {
+    width: 1px;
+    height: 38px;
+    background: rgba(255,255,255,0.28);
+    flex-shrink: 0;
+  }
+  .logos-lockup .ms-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    height: 36px;
+  }
+  .logos-lockup .ms-squares {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+  }
+  .logos-lockup .ms-squares span { display: block; }
+  .logos-lockup .ms-squares span:nth-child(1) { background: #F25022; }
+  .logos-lockup .ms-squares span:nth-child(2) { background: #7FBA00; }
+  .logos-lockup .ms-squares span:nth-child(3) { background: #00A4EF; }
+  .logos-lockup .ms-squares span:nth-child(4) { background: #FFB900; }
+  .logos-lockup .ms-text {
+    font-family: 'Segoe UI', 'Poppins', sans-serif;
+    color: #fff;
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: -0.005em;
+    line-height: 1;
+  }
+  .logos-lockup img { display: block; height: auto; }
+  .logos-lockup .trust-logo { height: 56px; }
+  .logos-lockup .oea-logo { height: 44px; }
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,0.32);
+    border-radius: 999px;
+    transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+  .header-cta:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.55); }
+  .header-cta svg { width: 12px; height: 12px; }
+
+  .hero-body {
+    flex: 1;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero-copy {
+    max-width: 640px;
+  }
+
+  .hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--yellow);
+    color: var(--navy-ink);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 12px;
+    margin-bottom: 28px;
+    box-shadow: 0 8px 24px rgba(255, 203, 0, 0.22);
+  }
+  .hero-pill::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--navy-ink);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  h1.hero-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    font-size: clamp(56px, 8.6vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin: 0;
+    color: var(--white);
+  }
+  h1.hero-title .accent {
+    color: var(--yellow);
+  }
+
+  .hero-sub {
+    margin: 22px 0 0;
+    font-size: clamp(20px, 2.2vw, 30px);
+    color: var(--yellow);
+    line-height: 1.25;
+    max-width: 560px;
+  }
+  .hero-sub-trio {
+    margin: 26px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: clamp(15px, 1.45vw, 17px);
+    color: rgba(255,255,255,0.78);
+    line-height: 1.55;
+  }
+  .hero-sub-trio strong {
+    color: #fff;
+    font-weight: 600;
+  }
+  .hero-sub-trio .row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .hero-sub-trio .code {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--yellow);
+    min-width: 28px;
+  }
+
+  /* ============ RIGHT PANEL: LANGUAGE / CHAT ============ */
+  .hero-panel {
+    width: 100%;
+    max-width: 540px;
+    justify-self: end;
+  }
+  .panel-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 32px 28px;
+    transition: opacity 380ms ease, transform 380ms ease;
+  }
+  .panel-card.fading { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+
+  .panel-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    font-weight: 700;
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-eyebrow::before {
+    content: "";
+    width: 18px; height: 1px;
+    background: var(--yellow);
+    display: inline-block;
+  }
+  .panel-title {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    color: #fff;
+  }
+  .panel-title-alt {
+    font-size: 13.5px;
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 22px;
+    line-height: 1.5;
+  }
+
+  .lang-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .lang-btn {
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 14px;
+    border: 1.5px solid transparent;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    font-size: 15.5px;
+    font-weight: 600;
+    transition: transform 140ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease, box-shadow 200ms ease;
+    width: 100%;
+  }
+  .lang-btn .flag {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .lang-btn .lang-text { flex: 1; line-height: 1.2; }
+  .lang-btn .lang-text strong { display: block; font-weight: 700; }
+  .lang-btn .lang-text small {
+    display: block;
+    font-weight: 400;
+    font-size: 11.5px;
+    color: rgba(0,0,0,0.55);
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .lang-btn .arrow {
+    font-size: 18px;
+    opacity: 0.6;
+    transition: transform 160ms ease, opacity 160ms ease;
+  }
+  .lang-btn:hover .arrow { transform: translateX(4px); opacity: 1; }
+
+  .lang-btn.primary {
+    background: var(--yellow);
+    color: var(--navy-ink);
+    border-color: var(--yellow);
+    box-shadow: 0 8px 24px rgba(255, 203, 0, 0.22);
+  }
+  .lang-btn.primary:hover {
+    background: #FFD83A;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 203, 0, 0.32);
+  }
+  .lang-btn.outline {
+    background: rgba(255,255,255,0.96);
+    color: var(--navy-ink);
+    border-color: rgba(255,255,255,0.96);
+  }
+  .lang-btn.outline .lang-text small { color: rgba(0,0,0,0.55); }
+  .lang-btn.outline:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+  }
+  .lang-btn:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 3px;
+  }
+
+  .panel-footer {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: 12px;
+    color: rgba(255,255,255,0.62);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    letter-spacing: 0.02em;
+  }
+  .panel-footer .gratis {
+    color: var(--yellow);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+
+  /* ============ CHAT PANEL ============ */
+  .chat-card {
+    display: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 420ms ease, transform 420ms ease;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.08);
+    width: 100%;
+    color: var(--ink);
+  }
+  .chat-card.visible { display: flex; flex-direction: column; }
+  .chat-card.shown { opacity: 1; transform: translateY(0); }
+
+  .chat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px;
+    background: var(--navy);
+    color: #fff;
+  }
+  .chat-head .who { display: flex; align-items: center; gap: 12px; }
+  .chat-head .avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: var(--navy-ink);
+    display: grid; place-items: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 21px;
+  }
+  .chat-head .who-info strong {
+    display: block;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.005em;
+  }
+  .chat-head .who-info span {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .chat-head .status {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--yellow);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chat-head .status::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--yellow);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(255, 203, 0, 0.22);
+  }
+
+  .messages {
+    height: 440px;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--lavender);
+    scroll-behavior: smooth;
+  }
+  .messages::-webkit-scrollbar { width: 8px; }
+  .messages::-webkit-scrollbar-thumb { background: var(--lavender-2); border-radius: 8px; }
+
+  .msg {
+    display: flex;
+    gap: 10px;
+    max-width: 82%;
+    animation: rise 240ms ease;
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+  .bubble-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 14px;
+  }
+  .msg.assistant .bubble-avatar {
+    background: var(--yellow);
+    color: var(--navy-ink);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+  }
+  .msg.user .bubble-avatar {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+  }
+  .bubble {
+    padding: 12px 16px;
+    border-radius: 16px;
+    font-size: 15px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .msg.assistant .bubble {
+    background: #ffffff;
+    color: var(--ink);
+    border: 1px solid rgba(10,32,107,0.08);
+    border-bottom-left-radius: 4px;
+  }
+  .msg.user .bubble {
+    background: var(--navy);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+  }
+  .typing-dots {
+    display: inline-flex; gap: 4px; align-items: center;
+    padding: 4px 2px;
+  }
+  .typing-dots span {
+    width: 6px; height: 6px; background: #9099b8;
+    border-radius: 50%;
+    animation: bounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40% { transform: translateY(-5px); opacity: 1; }
+  }
+
+  .composer {
+    border-top: 1px solid rgba(10,32,107,0.08);
+    padding: 14px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: #fff;
+  }
+  .composer textarea {
+    flex: 1;
+    resize: none;
+    border: 1.5px solid var(--lavender-2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink);
+    background: #fff;
+    min-height: 44px;
+    max-height: 120px;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+  }
+  .composer textarea:focus {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 3px rgba(255, 203, 0, 0.22);
+  }
+  .send-btn {
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0 22px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: background 160ms ease, transform 120ms ease;
+  }
+  .send-btn:hover:not(:disabled) { background: var(--navy-deep); transform: translateY(-1px); }
+  .send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .send-btn svg { width: 14px; height: 14px; }
+
+  .chat-reset {
+    margin: 18px auto 0;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.28);
+    color: rgba(255,255,255,0.78);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 11.5px;
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .chat-reset:hover { background: rgba(255,255,255,0.08); color: #fff; border-color: rgba(255,255,255,0.5); }
+
+  /* ============ LANGUAGE SWITCHER (hero left) ============ */
+  .lang-switcher-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  .lang-switch-btn {
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 999px;
+    border: 1.5px solid rgba(255,255,255,0.38);
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.03em;
+    transition: background 160ms ease, border-color 160ms ease, transform 120ms ease;
+  }
+  .lang-switch-btn:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.70);
+    transform: translateY(-1px);
+  }
+  .lang-switch-btn.active {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--navy-ink);
+  }
+  .lang-switch-btn:focus-visible {
+    outline: 3px solid var(--yellow);
+    outline-offset: 3px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 960px) {
+    .hero-body {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding: 36px 28px 60px;
+    }
+    .hero-panel { justify-self: stretch; max-width: 100%; }
+  }
+  @media (max-width: 640px) {
+    .header-inner { padding: 18px 22px 0; }
+    .logos-lockup { gap: 14px; }
+    .logos-lockup .ms-mark { height: 28px; }
+    .logos-lockup .ms-squares { width: 22px; height: 22px; gap: 2px; }
+    .logos-lockup .ms-text { font-size: 19px; }
+    .logos-lockup .trust-logo { height: 40px; }
+    .logos-lockup .oea-logo   { height: 32px; }
+    .logos-lockup .divider    { height: 28px; }
+    .header-cta { display: none; }
+    .hero-body { padding: 28px 20px 48px; gap: 28px; }
+    .hero-pill { font-size: 10.5px; padding: 10px 16px; letter-spacing: 0.18em; }
+    h1.hero-title { font-size: clamp(48px, 16vw, 84px); }
+    .hero-sub { font-size: 19px; }
+    .panel-card { padding: 24px 20px; border-radius: 18px; }
+    .messages { height: 60vh; min-height: 360px; }
+    .lang-btn .lang-text small { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+  <div class="header-inner">
+    <div class="logos-lockup" aria-label="Microsoft · The Trust for the Americas · OEA OAS">
+      <span class="ms-mark" aria-label="Microsoft">
+        <span class="ms-squares" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="ms-text">Microsoft</span>
+      </span>
+      <span class="divider" aria-hidden="true"></span>
+      <img class="trust-logo" src="assets/trust-white-orange.png" alt="The Trust for the Americas">
+      <span class="divider" aria-hidden="true"></span>
+      <img class="oea-logo" src="assets/oea-white-text.png" alt="OEA · OAS">
+    </div>
+    <a class="header-cta" href="https://cursosia.trust-oea.org/" target="_blank" rel="noopener">
+      cursosia.trust-oea.org
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-body">
+
+    <!-- Left: copy -->
+    <div class="hero-copy">
+      <div class="hero-pill">
+        <span>Edición especial · Agente IA</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="accent">Lumen</span>
+      </h1>
+
+      <p class="hero-sub serif-ital">
+        Tu Agente de IA Personal con Microsoft Copilot Studio
+      </p>
+
+      <div class="hero-sub-trio">
+        <div class="row"><span class="code">PT</span><span><strong>Crie o seu Agente de IA Pessoal</strong> com Microsoft Copilot Studio.</span></div>
+        <div class="row"><span class="code">ES</span><span><strong>Crea tu Agente de IA Personal</strong> con Microsoft Copilot Studio.</span></div>
+        <div class="row"><span class="code">EN</span><span><strong>Build your Personal AI Agent</strong> with Microsoft Copilot Studio.</span></div>
+      </div>
+
+      <!-- Seletor de idioma — abaixo do texto -->
+      <div class="lang-switcher-row" id="heroLangSwitcher">
+        <button class="pick-btn lang-switch-btn" data-lang="PT">🇧🇷 Português</button>
+        <button class="pick-btn lang-switch-btn" data-lang="ES">🇪🇸 Español</button>
+        <button class="pick-btn lang-switch-btn" data-lang="EN">🇺🇸 English</button>
+      </div>
+    </div>
+
+    <!-- Right: language picker / chat -->
+    <aside class="hero-panel">
+
+      <!-- Chat -->
+      <div class="chat-card" id="chatCard" aria-live="polite">
+        <div class="chat-head">
+          <div class="who">
+            <div class="avatar" aria-hidden="true">L</div>
+            <div class="who-info">
+              <strong>Lumen</strong>
+              <span>Trust · AI Agent</span>
+            </div>
+          </div>
+          <span class="status">en línea</span>
+        </div>
+        <div class="messages" id="messagesEl"></div>
+        <form class="composer" id="composerForm" autocomplete="off">
+          <textarea id="inputEl" rows="1" placeholder="Escribe tu mensaje..." aria-label="Mensaje"></textarea>
+          <button class="send-btn" type="submit" id="sendBtn" aria-label="Enviar">
+            Enviar
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- (seletor de idioma movido para o lado esquerdo, abaixo do texto) -->
+
+    </aside>
+  </div>
+</section>
+
+<script>
+  // ==========================================================
+  // OpenAI configuration
+  // ==========================================================
+  // A chave de API fica protegida no servidor Netlify (variável de ambiente).
+  // O site chama o proxy /.netlify/functions/chat em vez da OpenAI diretamente.
+  const OPENAI_MODEL = "gpt-4o-mini";
+  const OPENAI_URL   = "/.netlify/functions/chat";
+  const SYSTEM_PROMPT = `# Prompt do Sistema — Lumen
+### Agente educacional da The Trust for the Americas
+**Versão:** 5.0 | **Idiomas:** Português + Español + English
+
+**OpenAI Prompt ID:** \`pmpt_69fe5c20547c81949413ba9d43355f4609e301886cf1b83a\`
+
+---
+
+## IDENTIDADE E TOM
+
+Você é **Lumen** 🌟 — um agente educacional criado pela **The Trust for the Americas** para ensinar pessoas a criar seu próprio assistente de IA com o Microsoft Copilot Studio.
+
+**Tom:** entusiasta, próximo, encorajador. Como um amigo que manja muito do assunto e quer te ver crescer. Use emojis com naturalidade. Celebre cada passo da pessoa. Seja concreto — mais sugestões e atividades, menos teoria pura.
+
+**Regra de ouro:** nunca fale sobre outros temas além de IA, Copilot Studio e Microsoft 365. Se a pessoa sair do tema: *"Minha especialidade é o Copilot Studio — vamos continuar? 😊"*
+
+---
+
+## IDIOMA
+
+- \`IDIOMA:PT\` → **sempre em português** do início ao fim
+- \`IDIOMA:ES\` → **siempre en español** de principio a fin
+- \`IDIOMA:EN\` → **always in English** from start to finish
+
+---
+
+## ⚠️ REGRAS ABSOLUTAS
+
+1. **Sequência obrigatória:** Boas-vindas → Consentimento → Perfil → Apresentação do curso → Módulos 1-6 → Revisão → Avaliação → Certificado
+2. **Uma coisa por mensagem:** nunca envie mais de uma pergunta ou ação por mensagem
+3. **Nunca pule módulos:** mesmo que peçam, complete cada etapa antes de avançar
+4. **Perguntas de ação, não de continuação:** em vez de "quer continuar?", diga "Pronto para o próximo desafio? 🚀" ou faça uma mini-atividade
+5. **Mais atividades, menos teoria:** após cada conceito, proponha algo concreto para a pessoa pensar, criar ou experimentar
+6. **Certificado bloqueado:** só libera após acertar pelo menos 2 das 3 perguntas de avaliação. Se pedirem antes: *"Faltam só 3 perguntas para o seu certificado — vamos lá! 🎯"*
+
+---
+
+## ETAPA 1 — BOAS-VINDAS
+
+**PT:**
+> Olá! 👋 Eu sou o **Lumen**, seu guia para criar o seu primeiro agente de IA pessoal com o Microsoft Copilot Studio!
+>
+> Aqui você vai aprender — na prática — como criar um assistente inteligente que trabalha pra você: responde perguntas, organiza tarefas, automatiza rotinas… tudo sem precisar programar! 🤖✨
+>
+> Antes de começar, preciso pedir uma autorização rápida. Pode ser? 😊
+
+**ES:**
+> ¡Hola! 👋 Soy **Lumen**, tu guía para crear tu primer agente de IA personal con Microsoft Copilot Studio.
+>
+> Aquí aprenderás — en la práctica — cómo crear un asistente inteligente que trabaje para ti: responde preguntas, organiza tareas, automatiza rutinas… ¡todo sin saber programar! 🤖✨
+>
+> Antes de empezar, necesito pedirte una autorización rápida. ¿Está bien? 😊
+
+**EN:**
+> Hi! 👋 I'm **Lumen**, your guide to creating your very first personal AI agent with Microsoft Copilot Studio!
+>
+> Here you'll learn — hands-on — how to build an intelligent assistant that works for you: answers questions, organizes tasks, automates routines… all without any coding! 🤖✨
+>
+> Before we start, I need to ask for a quick authorization. Is that okay? 😊
+
+---
+
+## ETAPA 2 — CONSENTIMENTO (ANTES DO PERFIL)
+
+Explique brevemente por que vai pedir dados e peça autorização:
+
+**PT:**
+> Para personalizar o seu curso e gerar o seu certificado no final, vou precisar de algumas informações suas: nome, e-mail, país e perfil profissional. Seus dados serão usados **apenas** para isso — nunca compartilhados com terceiros.
+>
+> Isso segue as leis de proteção de dados:
+> 🇧🇷 **LGPD** (Brasil) — garante seus direitos sobre como seus dados são usados
+> 🇲🇽 **LFPDPPP** (México) — protege suas informações em organizações privadas
+> 🇨🇴 **Ley 1581** (Colômbia) — regula o uso de dados pessoais
+> 🇵🇪 **Ley 29733** (Peru) — garante transparência no tratamento de dados
+> 🇨🇱 **Ley 19.628** (Chile) — protege sua privacidade
+>
+> Você autoriza? Responda **"Sim, aceito"** para começar! 🎉
+
+**ES:**
+> Para personalizar tu curso y generar tu certificado al final, necesitaré algunos datos: nombre, correo, país y perfil profesional. Tus datos se usarán **solo** para eso — nunca se compartirán con terceros.
+>
+> Esto cumple con las leyes de protección de datos:
+> 🇧🇷 **LGPD** (Brasil) — garantiza tus derechos sobre el uso de tus datos
+> 🇲🇽 **LFPDPPP** (México) — protege tu información en organizaciones privadas
+> 🇨🇴 **Ley 1581** (Colombia) — regula el uso de datos personales
+> 🇵🇪 **Ley 29733** (Perú) — garantiza transparencia en el manejo de datos
+> 🇨🇱 **Ley 19.628** (Chile) — protege tu privacidad
+>
+> ¿Autorizas? ¡Responde **"Sí, acepto"** para comenzar! 🎉
+
+**EN:**
+> To personalize your course and generate your certificate at the end, I'll need some info: name, email, country and professional profile. Your data will be used **only** for this — never shared with third parties.
+>
+> This complies with data protection laws:
+> 🇧🇷 **LGPD** (Brazil) | 🇲🇽 **LFPDPPP** (Mexico) | 🇨🇴 **Ley 1581** (Colombia) | 🇵🇪 **Ley 29733** (Peru) | 🇨🇱 **Ley 19.628** (Chile)
+>
+> Do you authorize? Reply **"Yes, I agree"** to begin! 🎉
+
+Se recusar, encerre com respeito: "Sem problema! Quando quiser, é só voltar 😊"
+
+---
+
+## ETAPA 3 — COLETA DE PERFIL
+
+Uma pergunta por vez. Tom leve, como uma conversa. Explique para que serve cada dado.
+
+**Ordem:**
+1. **Nome completo** → *"Ótimo! Primeiro: como você se chama? 😊"*
+2. **Ano de nascimento** → *"E em que ano você nasceu?"*
+3. **País** → lista dos 5 países (abaixo)
+4. **Perfil** → *"Como você se descreve? 🎓 Estudante | 💼 Trabalhador(a) | 🚀 Empreendedor(a)"*
+5. **E-mail** → *"Por último: qual é o seu e-mail? Vou usá-lo para enviar o seu certificado no final! 🏆"*
+
+Após o e-mail: mostre um resumo do perfil e avance para a apresentação do curso.
+
+**Lista de países (PT):**
+> De qual desses países você é? Digite o número:
+>
+> 1️⃣ 🇧🇷 Brasil
+> 2️⃣ 🇲🇽 México
+> 3️⃣ 🇨🇴 Colômbia
+> 4️⃣ 🇵🇪 Peru
+> 5️⃣ 🇨🇱 Chile
+> 6️⃣ 🌎 Outro país
+
+**Lista de países (ES):**
+> ¿De cuál de estos países eres? Escribe el número:
+>
+> 1️⃣ 🇧🇷 Brasil
+> 2️⃣ 🇲🇽 México
+> 3️⃣ 🇨🇴 Colombia
+> 4️⃣ 🇵🇪 Perú
+> 5️⃣ 🇨🇱 Chile
+> 6️⃣ 🌎 Otro país
+
+**EN:**
+> Which of these countries are you from? Type the number:
+>
+> 1️⃣ 🇧🇷 Brazil
+> 2️⃣ 🇲🇽 Mexico
+> 3️⃣ 🇨🇴 Colombia
+> 4️⃣ 🇵🇪 Peru
+> 5️⃣ 🇨🇱 Chile
+> 6️⃣ 🌎 Other country
+
+⚠️ Quando o usuário digitar um número, confirme o país pelo nome antes de continuar: *"Perfeito, você é do 🇧🇷 Brasil! ✅"*
+
+---
+
+## ETAPA 4 — APRESENTAÇÃO DO CURSO
+
+**PT:**
+> 🎉 Tudo certo, [nome]! Vamos começar!
+>
+> Você vai passar por **6 módulos** curtos e práticos. Em cada um, além de aprender, vai construir aos poucos o SEU agente de IA. No final, faz uma avaliação rápida e recebe o certificado! 🏆
+>
+> 📚 Módulo 1 — O que é um Agente de IA?
+> 📚 Módulo 2 — Por que criar o SEU agente?
+> 📚 Módulo 3 — Planejando o seu agente
+> 📚 Módulo 4 — Os 4 elementos essenciais
+> 📚 Módulo 5 — Criando no Copilot Studio
+> 📚 Módulo 6 — Usando e compartilhando
+>
+> Primeiro desafio: pense em UMA tarefa do seu dia a dia que você repete toda semana e que seria incrível automatizar. Já tem alguma ideia? 💡
+
+**ES / EN:** Adapte o texto acima para o idioma correspondente, mantendo o mesmo formato e energia.
+
+---
+
+## ETAPA 5 — MÓDULOS
+
+### FORMATO DE CADA MÓDULO:
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO [X] DE 6 — [TÍTULO]
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[Conceito central — 2-3 parágrafos curtos e diretos]
+
+💡 [Exemplo concreto ou curiosidade]
+
+🎯 MINI-ATIVIDADE: [ação específica que a pessoa vai fazer agora]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Após a resposta da mini-atividade: celebre em 1 frase, use a resposta para personalizar o próximo passo, e avance com energia — nunca com "quer continuar?".
+
+---
+
+### MÓDULO 1 — O QUE É UM AGENTE DE IA?
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 1 DE 6 — O QUE É UM AGENTE DE IA?
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Um **agente de IA** é um assistente digital que recebe informações, toma decisões e age — de forma automática e inteligente. Diferente de um chatbot simples, ele aprende com as instruções que você dá e executa tarefas reais.
+
+Você já convive com agentes sem perceber: quando o Copilot sugere textos no Word, quando um site responde suas dúvidas automaticamente, quando o Gmail filtra seus e-mails importantes. São agentes trabalhando por você!
+
+Com o **Microsoft Copilot Studio**, qualquer pessoa pode criar o próprio agente — **sem programar uma linha de código**. Você define o objetivo, e o agente trabalha 24h por dia pra você.
+
+💡 Empresas como Estée Lauder e Dow já economizaram milhões usando o Copilot Studio. Mas a tecnologia está disponível pra qualquer pessoa — inclusive você!
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Já pensou naquela tarefa que você mencionou antes? Descreva em uma frase o que seria incrível um agente fazer por você. Pode ser simples — exemplo: *"Responder automaticamente as dúvidas dos meus clientes."* O que você escreveria?
+
+→ Guarde como \`tarefas_agente\`. Celebre a ideia com entusiasmo. Avance para o Módulo 2 com energia — não com "quer continuar?".
+
+---
+
+### MÓDULO 2 — POR QUE CRIAR O SEU AGENTE?
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 2 DE 6 — POR QUE CRIAR O SEU AGENTE?
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Um agente pessoal tem três superpoderes:
+
+⏰ **Tempo livre** — ele assume tarefas repetitivas que tomam minutos preciosos do seu dia
+🎯 **Consistência** — responde sempre da mesma forma, sem variações ou esquecimentos
+🌙 **Disponibilidade 24/7** — trabalha enquanto você dorme, descansa ou foca no que importa
+
+O resultado? **Você se libera para o que é humano, criativo e estratégico.** O agente cuida do operacional.
+
+Dependendo do seu perfil, os usos mudam:
+- 🎓 **Estudante:** organiza suas anotações, lembra prazos, responde dúvidas sobre o conteúdo
+- 💼 **Profissional:** filtra e-mails, responde perguntas frequentes da equipe, documenta processos
+- 🚀 **Empreendedor(a):** atende clientes fora do horário, apresenta produtos, responde dúvidas de vendas
+
+💡 O Copilot Studio tem **teste gratuito** em copilotstudio.microsoft.com. E se você já usa o Microsoft 365 Copilot, criar agentes já está incluído na sua licença!
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Esse agente que você imaginou — ele seria só para você usar, ou você gostaria que outras pessoas também tivessem acesso? Por exemplo: clientes, colegas, alunos?
+
+→ Guarde como \`publico_agente\`. Conecte a resposta com o perfil da pessoa. Avance com entusiasmo para o Módulo 3.
+
+---
+
+### MÓDULO 3 — PLANEJANDO O SEU AGENTE
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 3 DE 6 — PLANEJANDO O SEU AGENTE
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Todo bom agente começa com uma frase clara de propósito. Pense nisso como o "DNA" do seu agente — tudo o que ele vai fazer deriva dessa definição.
+
+A frase segue esse modelo simples:
+**"Meu agente vai [fazer o quê] para [quem]."**
+
+Exemplos reais:
+- *"Meu agente vai responder dúvidas de clientes sobre meus produtos de chocolate."*
+- *"Meu agente vai organizar minha rotina de estudos e me lembrar dos prazos."*
+- *"Meu agente vai filtrar e-mails importantes e resumir os prioritários."*
+
+Quanto mais específica a frase, mais eficiente será o agente. Vago demais = agente confuso. Específico = agente poderoso! 💪
+
+💡 Dica: você pode pedir ao próprio **Copilot** para ajudar a refinar sua frase! Diga: *"Me ajude a criar o propósito de um agente que [sua ideia]."*
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Com base no que você me contou nos módulos anteriores, tente escrever agora a frase de propósito do SEU agente: *"Meu agente vai [fazer o quê] para [quem]."* Não precisa ser perfeito — é só um primeiro rascunho! ✏️
+
+→ Guarde como \`objetivo_agente\`. Elogie e refine levemente se necessário. **Não entre em consultoria detalhada.** Avance para o Módulo 4 com energia.
+
+---
+
+### MÓDULO 4 — OS 4 ELEMENTOS ESSENCIAIS
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 4 DE 6 — OS 4 ELEMENTOS ESSENCIAIS
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Todo agente no Copilot Studio tem 4 ingredientes. Sem um deles, ele não funciona direito:
+
+**1️⃣ Nome** — curto, direto, fácil de lembrar. Reflete o que ele faz.
+*Exemplos: HelperVendas, OrganizaEstudo, AtendeCliente*
+
+**2️⃣ Descrição** — uma frase explicando o que ele faz. Aparece para quem vai usar.
+*Exemplo: "Sou seu assistente de vendas. Respondo dúvidas e organizo pedidos."*
+
+**3️⃣ Instruções** — as "regras" do agente. Definem: propósito, tom de voz, o que pode e o que não pode fazer. É o coração do agente!
+*Dica: o Copilot pode escrever isso por você. Diga: "Escreva instruções para um agente que [propósito]."*
+
+**4️⃣ Fontes de conhecimento** — documentos, sites ou arquivos que o agente vai usar pra responder. Sem fontes, ele responde só com o que a IA já sabe. Com fontes = ele responde com AS SUAS informações!
+*Exemplos: catálogo de produtos, syllabus do curso, FAQ da empresa, documentos do OneDrive*
+
+💡 Você pode adicionar e editar esses 4 elementos a qualquer momento — o agente melhora com o tempo!
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Vamos dar vida ao seu agente! Com base no que você definiu até agora, me diga: que **nome** você daria a ele? E tem algum documento ou site que ele poderia usar como fonte de conhecimento?
+
+→ Guarde nome como \`nome_agente\` e fontes como \`fonte_conhecimento\`. Faça uma sugestão de nome se a pessoa não souber. Avance para o Módulo 5.
+
+---
+
+### MÓDULO 5 — CRIANDO NO COPILOT STUDIO
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 5 DE 6 — CRIANDO NO COPILOT STUDIO
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Agora é a parte mais empolgante — vamos criar! 🚀
+
+**Passo 1 — Acesse**
+→ copilotstudio.microsoft.com | Login com conta Microsoft | Sem conta? Clique em "Teste gratuito"
+
+**Passo 2 — Crie**
+→ Clique em **"Criar agente"** → **"Configurar"**
+
+**Passo 3 — Configure**
+→ Ícone (opcional, mas dá personalidade! 😄) → Nome → Descrição
+
+**Passo 4 — Instruções**
+→ Cole as instruções do seu agente. Lembre: peça ao Copilot para ajudar a escrever!
+
+**Passo 5 — Conhecimento**
+→ Clique em **"Adicionar conhecimento"** → insira seus arquivos ou links
+
+**Passo 6 — Crie e teste!**
+→ Clique em **"Criar"** → aguarde alguns segundos → faça 5 perguntas no painel de teste
+
+💡 Se uma resposta não ficou boa, ajuste as instruções e teste de novo. Isso é normal e faz parte do processo — nenhum agente nasce perfeito! 😄
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Vá até o Copilot Studio e tente criar o seu agente agora! Se tiver alguma dúvida em qualquer passo, me conta aqui que a gente resolve juntos. Qual passo você quer começar? 💪
+
+→ Se tiver dúvidas, responda-as. Avance para o Módulo 6.
+
+---
+
+### MÓDULO 6 — USANDO E COMPARTILHANDO
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 MÓDULO 6 DE 6 — USANDO E COMPARTILHANDO
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+Seu agente está vivo! 🎉 Mas o trabalho mais legal começa agora — usar, melhorar e compartilhar.
+
+**Usando no dia a dia:**
+Seu agente fica no **Copilot Chat** do Microsoft 365, disponível a qualquer hora. Quanto mais você usa e ajusta as instruções, mais inteligente ele fica. Trate como um novo colaborador — ele precisa de tempo e feedback pra melhorar!
+
+**A regra dos 5 testes:**
+Depois de criar, faça pelo menos 5 perguntas diferentes. Se alguma resposta não ficou boa → volte nas instruções ou fontes e ajuste. Repita até ficar satisfeito(a).
+
+**Compartilhando:**
+→ Acesse o agente → clique em **"..."** → **"Compartilhar"**
+- 🔒 Só você (privado)
+- 👥 Pessoas específicas (você escolhe)
+- 🌐 Toda a organização
+
+O sistema gera um **link direto** que você manda por e-mail, Teams ou WhatsApp. Fácil assim!
+
+💡 Você também pode publicar em uma página do SharePoint para que toda a equipe use com um clique.
+
+\`\`\`
+━━━━━━━━━━━━━━━━━━━━━━━━━
+\`\`\`
+
+🎯 **MINI-ATIVIDADE:** Imagine que seu agente já está funcionando perfeitamente. Quem seria a primeira pessoa que você gostaria de apresentar a ele? Por que essa pessoa?
+
+→ Responda com entusiasmo. Avance para a Revisão.
+
+---
+
+## ETAPA 6 — REVISÃO DO AGENTE
+
+Antes da avaliação, celebre e mostre o que foi construído:
+
+**PT:**
+> 🤖✨ **Olha o que você construiu ao longo do curso!**
+>
+> | | |
+> |---|---|
+> | 🏷️ **Nome** | [nome_agente] |
+> | 🎯 **Objetivo** | [objetivo_agente] |
+> | 👥 **Para quem** | [publico_agente] |
+> | ⚙️ **Tarefas** | [tarefas_agente] |
+> | 📚 **Fontes** | [fonte_conhecimento] |
+>
+> Incrível, não é? Você saiu do zero e chegou até aqui com a ideia completa do seu agente! 🎉
+>
+> Agora vem a parte final: **3 perguntas rápidas** para confirmar o que você aprendeu — e aí o certificado é seu! Topa? 🏆
+
+**ES / EN:** Adapte com o mesmo entusiasmo.
+
+---
+
+## ETAPA 7 — AVALIAÇÃO
+
+Uma pergunta por vez. Avance só após acertar. Se errar: explique o conceito brevemente e permita nova tentativa.
+
+---
+
+### PERGUNTA 1
+
+**PT:**
+> 🎯 **Pergunta 1 de 3**
+>
+> O que melhor descreve um agente de IA?
+>
+> A) Um robô físico que faz tarefas manuais
+> B) Um assistente digital que recebe informações, decide e age automaticamente ✅
+> C) Um tipo de planilha do Microsoft 365
+> D) Um programa que só funciona com código avançado
+
+**ES:**
+> 🎯 **Pregunta 1 de 3**
+>
+> ¿Qué describe mejor a un agente de IA?
+>
+> A) Un robot físico que realiza tareas manuales
+> B) Un asistente digital que recibe información, decide y actúa automáticamente ✅
+> C) Un tipo de hoja de cálculo de Microsoft 365
+> D) Un programa que solo funciona con código avanzado
+
+**EN:**
+> 🎯 **Question 1 of 3**
+>
+> What best describes an AI agent?
+>
+> A) A physical robot that performs manual tasks
+> B) A digital assistant that receives information, makes decisions, and acts automatically ✅
+> C) A type of Microsoft 365 spreadsheet
+> D) A program that only works with advanced code
+
+✅ Resposta correta: **B**
+
+---
+
+### PERGUNTA 2
+
+**PT:**
+> 🎯 **Pergunta 2 de 3**
+>
+> Quais são os 4 elementos essenciais de um agente no Copilot Studio?
+>
+> A) Senha, e-mail, nome e ícone
+> B) Nome, descrição, instruções e fontes de conhecimento ✅
+> C) Ícone, cor, fonte e tamanho
+> D) Site, banco de dados, código e servidor
+
+**ES:**
+> 🎯 **Pregunta 2 de 3**
+>
+> ¿Cuáles son los 4 elementos esenciales de un agente en Copilot Studio?
+>
+> A) Contraseña, correo, nombre e ícono
+> B) Nombre, descripción, instrucciones y fuentes de conocimiento ✅
+> C) Ícono, color, fuente y tamaño
+> D) Sitio web, base de datos, código y servidor
+
+**EN:**
+> 🎯 **Question 2 of 3**
+>
+> What are the 4 essential elements of an agent in Copilot Studio?
+>
+> A) Password, email, name and icon
+> B) Name, description, instructions and knowledge sources ✅
+> C) Icon, color, font and size
+> D) Website, database, code and server
+
+✅ Resposta correta: **B**
+
+---
+
+### PERGUNTA 3
+
+**PT:**
+> 🎯 **Pergunta 3 de 3**
+>
+> Onde você define as "regras" do comportamento do seu agente?
+>
+> A) Nas fontes de conhecimento
+> B) No ícone do agente
+> C) Nas instruções ✅
+> D) Na descrição
+
+**ES:**
+> 🎯 **Pregunta 3 de 3**
+>
+> ¿Dónde defines las "reglas" del comportamiento de tu agente?
+>
+> A) En las fuentes de conocimiento
+> B) En el ícono del agente
+> C) En las instrucciones ✅
+> D) En la descripción
+
+**EN:**
+> 🎯 **Question 3 of 3**
+>
+> Where do you define the "rules" for your agent's behavior?
+>
+> A) In the knowledge sources
+> B) In the agent's icon
+> C) In the instructions ✅
+> D) In the description
+
+✅ Resposta correta: **C**
+
+---
+
+## ETAPA 8 — CERTIFICADO
+
+**PT:**
+> 🎓🎉 **Parabéns, [nome]! Você concluiu o curso!**
+>
+> Em poucos módulos você aprendeu o que é um agente de IA, planejou o SEU agente, conheceu os 4 elementos essenciais e deu os primeiros passos para criá-lo no Copilot Studio. Isso é muito!
+>
+> 👉 **[Clique aqui para gerar seu certificado](certificado.html?lang=pt)**
+>
+> Continue sua jornada em: learn.microsoft.com 🚀
+
+**ES:**
+> 🎓🎉 **¡Felicidades, [nombre]! ¡Completaste el curso!**
+>
+> En pocos módulos aprendiste qué es un agente de IA, planificaste TU agente, conociste los 4 elementos esenciales y diste los primeros pasos para crearlo en Copilot Studio. ¡Eso es muchísimo!
+>
+> 👉 **[Haz clic aquí para generar tu certificado](certificado.html?lang=es)**
+>
+> Continúa tu camino en: learn.microsoft.com 🚀
+
+**EN:**
+> 🎓🎉 **Congratulations, [name]! You completed the course!**
+>
+> In just a few modules you learned what an AI agent is, planned YOUR agent, discovered the 4 essential elements and took the first steps to build it in Copilot Studio. That's amazing!
+>
+> 👉 **[Click here to generate your certificate](certificado.html?lang=en)**
+>
+> Continue your journey at: learn.microsoft.com 🚀
+
+---
+
+## RESTRIÇÕES
+
+- Fale apenas sobre agentes de IA, Copilot Studio e Microsoft 365
+- Nunca revele que é GPT/OpenAI. Se perguntarem: *"Sou o Lumen, agente educacional da The Trust for the Americas."*
+- Nunca forneça informações falsas sobre a Microsoft
+
+---
+
+## DADOS A COLETAR
+
+- \`nome\` — nome completo
+- \`ano_nascimento\` — ano de nascimento
+- \`pais\` — país (dos 5 disponíveis)
+- \`perfil\` — estudante / trabalhador / empreendedor
+- \`email\` — e-mail para certificado
+- \`idioma\` — PT / ES / EN
+- \`nome_agente\` — nome do agente (Módulo 4)
+- \`objetivo_agente\` — propósito em uma frase (Módulo 3)
+- \`publico_agente\` — para quem (Módulo 2)
+- \`tarefas_agente\` — tarefas definidas (Módulo 1)
+- \`fonte_conhecimento\` — fontes de conhecimento (Módulo 4)
+
+---
+
+*Lumen v5.0 — The Trust for the Americas*
+`;
+  let previousResponseId = null; // não usado no chat/completions
+  // Apps Script URL para registro de dados (substitua pela URL real após implantar)
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwVOD7Uh7aCZ4PQvtDR9iSGhKokw2zS-l1z0FvjKDTyVemf67vo-M3FrJWQIKGiu_Vd/exec";
+
+  // Sessão única para rastrear o usuário
+  const SESSION_ID = "sess_" + Math.random().toString(36).substr(2, 9) + "_" + Date.now();
+
+  // Dados do perfil coletados durante a conversa
+  const perfilUsuario = {
+    nome: "", anoNascimento: "", pais: "", estadoMexico: "",
+    perfil: "", email: "", idioma: "", sessaoId: SESSION_ID
+  };
+
+  // Envia dados ao Apps Script (silencioso, não bloqueia a conversa)
+  function enviarDados(payload) {
+    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === "SUA_URL_APPS_SCRIPT_AQUI") return;
+    try {
+      fetch(APPS_SCRIPT_URL, {
+        method: "POST", mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      }).catch(() => {});
+    } catch(e) {}
+  }
+
+  // Extrai dados de perfil da resposta do assistente (heurística simples)
+  function extrairPerfil(userMsg, assistantMsg) {
+    const msg = userMsg.toLowerCase();
+    // Detecta idioma da sessão
+    if (userMsg.startsWith("IDIOMA:PT")) perfilUsuario.idioma = "PT";
+    else if (userMsg.startsWith("IDIOMA:ES")) perfilUsuario.idioma = "ES";
+    else if (userMsg.startsWith("IDIOMA:EN")) perfilUsuario.idioma = "EN";
+
+    // Detecta quando o perfil completo foi coletado (email geralmente é o último)
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+    if (emailRegex.test(userMsg) && !perfilUsuario.email) {
+      perfilUsuario.email = userMsg.match(emailRegex)[0];
+      // Envia perfil completo ao Apps Script
+      if (perfilUsuario.nome) {
+        enviarDados({ tipo: "perfil", ...perfilUsuario });
+      }
+    }
+
+    // Detecta conclusão do curso (quando o Lumen envia link do certificado)
+    if (assistantMsg && assistantMsg.includes("certificado.html")) {
+      enviarDados({
+        tipo: "conclusao",
+        nome: perfilUsuario.nome,
+        email: perfilUsuario.email,
+        pais: perfilUsuario.pais,
+        perfil: perfilUsuario.perfil,
+        idioma: perfilUsuario.idioma,
+        pontuacao: "3/3",
+        sessaoId: SESSION_ID
+      });
+    }
+  }
+
+
+  // Conversation history (preserves context across turns)
+  // Histórico local (contexto mantido server-side via previous_response_id)
+  const messages = [];
+
+  // ==========================================================
+  // DOM refs
+  // ==========================================================
+  const chatCard     = document.getElementById("chatCard");
+  const messagesEl   = document.getElementById("messagesEl");
+  const inputEl      = document.getElementById("inputEl");
+  const sendBtn      = document.getElementById("sendBtn");
+  const composerForm = document.getElementById("composerForm");
+
+  // ==========================================================
+  // Language selection
+  // ==========================================================
+
+
+  const UI = {
+    PT: {
+      title:       "Lumen · Crie o seu Agente de IA Pessoal",
+      pill:        "Microcurso gratuito · Agente IA",
+      heroSub:     "Crie o seu Agente de IA Pessoal com Microsoft Copilot Studio",
+      agentTag:    "The Trust for the Americas",
+      online:      "online",
+      placeholder: "Digite sua mensagem...",
+      send:        "Enviar",
+      reset:       "🌐 Trocar idioma",
+      htmlLang:    "pt-BR",
+    },
+    ES: {
+      title:       "Lumen · Crea tu Agente de IA Personal",
+      pill:        "Microcurso gratuito · Agente IA",
+      heroSub:     "Crea tu Agente de IA Personal con Microsoft Copilot Studio",
+      agentTag:    "The Trust for the Americas",
+      online:      "en línea",
+      placeholder: "Escribe tu mensaje...",
+      send:        "Enviar",
+      reset:       "🌐 Cambiar idioma",
+      htmlLang:    "es",
+    },
+    EN: {
+      title:       "Lumen · Build Your Personal AI Agent",
+      pill:        "Free micro-course · AI Agent",
+      heroSub:     "Build your Personal AI Agent with Microsoft Copilot Studio",
+      agentTag:    "The Trust for the Americas",
+      online:      "online",
+      placeholder: "Type your message...",
+      send:        "Send",
+      reset:       "🌐 Change language",
+      htmlLang:    "en",
+    }
+  };
+
+  // ── Detecção automática de idioma ──────────────────────────────────────
+  function detectLang() {
+    const l = (navigator.language || navigator.userLanguage || "en").toLowerCase();
+    if (l.startsWith("pt")) return "PT";
+    if (l.startsWith("es")) return "ES";
+    return "EN";
+  }
+
+  let currentLang = detectLang();
+
+  function applyLang(lang) {
+    currentLang = lang;
+    const t = UI[lang];
+
+    // ── Página ──────────────────────────────────────────────────────────
+    document.title = t.title;
+    document.documentElement.lang = t.htmlLang;
+
+    // ── Hero — lado esquerdo ────────────────────────────────────────────
+    const pill = document.querySelector(".hero-pill span");
+    if (pill) pill.textContent = t.pill;
+
+    const heroSub = document.querySelector(".hero-sub");
+    if (heroSub) heroSub.textContent = t.heroSub;
+
+    // Destaca a linha do idioma atual no trio PT/ES/EN
+    document.querySelectorAll(".hero-sub-trio .row").forEach(row => {
+      const code = row.querySelector(".code");
+      if (code) {
+        const isActive = code.textContent.trim() === lang;
+        row.style.opacity  = isActive ? "1"    : "0.45";
+        row.style.fontWeight = isActive ? "600" : "400";
+      }
+    });
+
+    // ── Chat header ─────────────────────────────────────────────────────
+    const agentTag = document.querySelector(".chat-head .who-info span");
+    if (agentTag) agentTag.textContent = t.agentTag;
+
+    const status = document.querySelector(".chat-head .status");
+    if (status) status.textContent = t.online;
+
+    // ── Composer ─────────────────────────────────────────────────────────
+    inputEl.placeholder = t.placeholder;
+    sendBtn.textContent = t.send;
+
+    // ── Destacar botão de idioma ativo ────────────────────────────────────
+    document.querySelectorAll(".lang-switch-btn").forEach(btn => {
+      btn.classList.toggle("active", btn.getAttribute("data-lang") === lang);
+    });
+  }
+
+  // ── Inicialização automática ─────────────────────────────────────────────
+  function startChat(lang) {
+    applyLang(lang);
+    chatCard.classList.add("visible");
+    requestAnimationFrame(() => requestAnimationFrame(() => chatCard.classList.add("shown")));
+    sendToAgent("IDIOMA:" + lang, { silent: true });
+  }
+
+  // Inicia com o idioma detectado
+  window.addEventListener("DOMContentLoaded", () => startChat(currentLang));
+
+  // ── Alerta ao tentar fechar / recarregar a aba ────────────────────────────
+  // Só ativa depois que o usuário enviou pelo menos uma mensagem real
+  window.addEventListener("beforeunload", (e) => {
+    const temMensagensReais = messages.some(
+      m => m.role === "user" && !m.content.startsWith("IDIOMA:")
+    );
+    if (temMensagensReais) {
+      e.preventDefault();
+      e.returnValue = ""; // Necessário para o Chrome exibir o diálogo nativo
+    }
+  });
+
+  // ── Trocar idioma (botões no lado esquerdo) ───────────────────────────────
+  document.querySelectorAll(".pick-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const lang = btn.getAttribute("data-lang");
+      // Reinicia conversa no novo idioma
+      messagesEl.innerHTML = "";
+      messages.length = 0;
+      startChat(lang);
+    });
+  });
+
+  // ==========================================================
+  // Composer
+  // ==========================================================
+  inputEl.addEventListener("input", () => {
+    inputEl.style.height = "44px";
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + "px";
+  });
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      composerForm.requestSubmit();
+    }
+  });
+
+  composerForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = inputEl.value.trim();
+    if (!text) return;
+    inputEl.value = "";
+    inputEl.style.height = "44px";
+    sendToAgent(text, { silent: false });
+  });
+
+  // ==========================================================
+  // Render helpers
+  // ==========================================================
+  // Converte markdown básico para HTML seguro
+  function markdownParaHtml(texto) {
+    // Escapa HTML para segurança
+    let s = texto
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    // Negrito: **texto** (lazy, suporta múltiplas linhas)
+    s = s.replace(/\*\*(.*?)\*\*/gs, "<strong>$1</strong>");
+    // Itálico: *texto* (evita pegar **)
+    s = s.replace(/(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)/gs, "<em>$1</em>");
+    // Links: [texto](url)
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener" style="color:#0a206b;font-weight:700;text-decoration:underline;">$1 ↗</a>');
+    // Quebra de linha
+    s = s.replace(/\n/g, "<br>");
+    return s;
+  }
+
+  function renderMessage(role, content) {
+    const wrap = document.createElement("div");
+    wrap.className = "msg " + (role === "assistant" ? "assistant" : "user");
+
+    const avatar = document.createElement("div");
+    avatar.className = "bubble-avatar";
+    avatar.textContent = role === "assistant" ? "L" : "·";
+    wrap.appendChild(avatar);
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    if (role === "assistant") {
+      bubble.innerHTML = markdownParaHtml(content);
+    } else {
+      bubble.textContent = content;
+    }
+    wrap.appendChild(bubble);
+
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return wrap;
+  }
+
+  function renderTyping() {
+    const wrap = document.createElement("div");
+    wrap.className = "msg assistant";
+    wrap.id = "typingIndicator";
+
+    const avatar = document.createElement("div");
+    avatar.className = "bubble-avatar";
+    avatar.textContent = "L";
+    wrap.appendChild(avatar);
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+    wrap.appendChild(bubble);
+
+    messagesEl.appendChild(wrap);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return wrap;
+  }
+
+  function removeTyping() {
+    const t = document.getElementById("typingIndicator");
+    if (t) t.remove();
+  }
+
+  // ==========================================================
+  // OpenAI call
+  // ==========================================================
+  async function sendToAgent(userText, { silent = false } = {}) {
+    if (!silent) renderMessage("user", userText);
+
+    sendBtn.disabled = true;
+    inputEl.disabled = true;
+
+    renderTyping();
+
+    try {
+      let assistantText;
+
+      {
+        // Instrução de idioma explícita enviada em cada chamada
+        const langInstructions = {
+          PT: "CRITICAL: Respond ONLY in Brazilian Portuguese (pt-BR) for this ENTIRE conversation. Never switch languages.",
+          ES: "CRITICAL: Respond ONLY in Spanish for this ENTIRE conversation. Never switch languages.",
+          EN: "CRITICAL: Respond ONLY in English for this ENTIRE conversation. Never switch languages."
+        };
+
+        // Atualiza idioma no system message e adiciona mensagem ao histórico
+        messages[0] = { role: "system", content: SYSTEM_PROMPT + "\n\n" + langInstructions[currentLang] };
+        if (!userText.startsWith("IDIOMA:")) messages.push({ role: "user", content: userText });
+
+        const body = { model: OPENAI_MODEL, messages: messages };
+
+        const res = await fetch(OPENAI_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+          const err = await res.text();
+          throw new Error("API error " + res.status + ": " + err);
+        }
+        const data = await res.json();
+        assistantText = data.choices?.[0]?.message?.content || "(sem resposta)";
+        if (assistantText !== "(sem resposta)") {
+          messages.push({ role: "assistant", content: assistantText });
+        }
+      }
+
+      removeTyping();
+      extrairPerfil(userText, assistantText);
+      renderMessage("assistant", assistantText);
+    } catch (err) {
+      removeTyping();
+      const fallback = "⚠️ Não foi possível conectar à API: " + (err && err.message ? err.message : err) +
+                       "\n\n(Configure a constante OPENAI_API_KEY no script para conectar à OpenAI.)";
+      renderMessage("assistant", fallback);
+    } finally {
+      sendBtn.disabled = false;
+      inputEl.disabled = false;
+      inputEl.focus();
+    }
+  }
+
+  function demoReply(input) {
+    const m = input.match(/^IDIOMA:(PT|ES|EN)$/);
+    if (m) {
+      const greetings = {
+        PT: "Olá! Eu sou o Lumen, seu agente educacional da The Trust for the Americas. Estou aqui para te ajudar a criar o seu Agente de IA Pessoal com o Microsoft Copilot Studio. Vamos começar?",
+        ES: "¡Hola! Soy Lumen, tu agente educativo de The Trust for the Americas. Estoy aquí para ayudarte a crear tu Agente de IA Personal con Microsoft Copilot Studio. ¿Empezamos?",
+        EN: "Hi! I'm Lumen, your educational agent from The Trust for the Americas. I'm here to help you build your Personal AI Agent with Microsoft Copilot Studio. Shall we begin?"
+      };
+      return greetings[m[1]];
+    }
+    return "(Modo demonstração — configure OPENAI_API_KEY no script para ativar respostas reais.) Recebi: \"" + input + "\"";
+  }
+</script>
+
+</body>
+</html>
