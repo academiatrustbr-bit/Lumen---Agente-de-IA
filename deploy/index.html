@@ -1398,36 +1398,79 @@ Antes da avaliação, celebre e mostre o que foi construído:
     } catch(e) {}
   }
 
-  // Extrai dados de perfil da resposta do assistente (heurística simples)
+  // Extrai dados de perfil incrementalmente a cada troca de mensagens
   function extrairPerfil(userMsg, assistantMsg) {
-    const msg = userMsg.toLowerCase();
-    // Detecta idioma da sessão
-    if (userMsg.startsWith("IDIOMA:PT")) perfilUsuario.idioma = "PT";
-    else if (userMsg.startsWith("IDIOMA:ES")) perfilUsuario.idioma = "ES";
-    else if (userMsg.startsWith("IDIOMA:EN")) perfilUsuario.idioma = "EN";
-
-    // Detecta quando o perfil completo foi coletado (email geralmente é o último)
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-    if (emailRegex.test(userMsg) && !perfilUsuario.email) {
+    let atualizado = false;
+
+    // ── 1. Detecta idioma → dispara sessao_iniciada imediatamente
+    let novoIdioma = null;
+    if (userMsg.startsWith("IDIOMA:PT") && !perfilUsuario.idioma) novoIdioma = "PT";
+    else if (userMsg.startsWith("IDIOMA:ES") && !perfilUsuario.idioma) novoIdioma = "ES";
+    else if (userMsg.startsWith("IDIOMA:EN") && !perfilUsuario.idioma) novoIdioma = "EN";
+
+    if (novoIdioma) {
+      perfilUsuario.idioma = novoIdioma;
+      enviarDados({ tipo: "sessao_iniciada", idioma: novoIdioma, sessaoId: SESSION_ID, timestamp: new Date().toISOString() });
+      return; // nada mais a extrair desta mensagem de sistema
+    }
+
+    // ── 2. Detecta email
+    if (!perfilUsuario.email && emailRegex.test(userMsg)) {
       perfilUsuario.email = userMsg.match(emailRegex)[0];
-      // Envia perfil completo ao Apps Script
-      if (perfilUsuario.nome) {
-        enviarDados({ tipo: "perfil", ...perfilUsuario });
+      atualizado = true;
+    }
+
+    // ── 3. Detecta ano de nascimento (4 dígitos entre 1940 e 2010)
+    if (!perfilUsuario.anoNascimento) {
+      const anoMatch = userMsg.match(/\b(19[4-9]\d|200\d|2010)\b/);
+      if (anoMatch) { perfilUsuario.anoNascimento = anoMatch[1]; atualizado = true; }
+    }
+
+    // ── 4. Detecta país (lista de países comuns em PT/ES/EN)
+    if (!perfilUsuario.pais) {
+      const paises = [
+        "Brasil","Brazil","México","Mexico","Colombia","Argentina","Peru","Chile",
+        "Ecuador","Bolivia","Venezuela","Paraguay","Uruguay","Honduras","Guatemala",
+        "El Salvador","Nicaragua","Costa Rica","Panamá","Panama","Cuba",
+        "República Dominicana","Dominican Republic","Haiti","Porto Rico","Puerto Rico",
+        "Estados Unidos","United States","EUA","USA","Canada","Canadá",
+        "España","Spain","Portugal","Outro","Otro","Other"
+      ];
+      const msgLower = userMsg.toLowerCase();
+      for (const p of paises) {
+        if (msgLower.includes(p.toLowerCase())) {
+          perfilUsuario.pais = p; atualizado = true; break;
+        }
       }
     }
 
-    // Detecta conclusão do curso (quando o Lumen envia link do certificado)
+    // ── 5. Detecta nome: mensagem curta só com letras, antes do email
+    if (!perfilUsuario.nome && !perfilUsuario.email) {
+      const trimmed = userMsg.trim();
+      const palavrasComuns = /^(sim|não|nao|sí|si|no|yes|ok|olá|ola|oi|hola|hello|hi|claro|sure|okay|vamos|start|begin|empezar|começar)$/i;
+      if (
+        /^[A-Za-zÀ-ÿ\s.'-]{4,80}$/.test(trimmed) &&
+        !emailRegex.test(trimmed) &&
+        !palavrasComuns.test(trimmed.toLowerCase())
+      ) {
+        perfilUsuario.nome = trimmed; atualizado = true;
+      }
+    }
+
+    // ── 6. Envia atualização incremental sempre que um campo novo for capturado
+    if (atualizado) {
+      enviarDados({ tipo: "atualizacao_perfil", ...perfilUsuario, timestamp: new Date().toISOString() });
+    }
+
+    // ── 7. Se email foi capturado agora → envia também evento de perfil completo
+    if (atualizado && perfilUsuario.email) {
+      enviarDados({ tipo: "perfil_completo", ...perfilUsuario, timestamp: new Date().toISOString() });
+    }
+
+    // ── 8. Detecta conclusão do curso (link do certificado na resposta do Lumen)
     if (assistantMsg && assistantMsg.includes("certificado.html")) {
-      enviarDados({
-        tipo: "conclusao",
-        nome: perfilUsuario.nome,
-        email: perfilUsuario.email,
-        pais: perfilUsuario.pais,
-        perfil: perfilUsuario.perfil,
-        idioma: perfilUsuario.idioma,
-        pontuacao: "3/3",
-        sessaoId: SESSION_ID
-      });
+      enviarDados({ tipo: "conclusao", ...perfilUsuario, timestamp: new Date().toISOString() });
     }
   }
 
