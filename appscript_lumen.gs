@@ -139,7 +139,7 @@ function salvarConclusao(d) {
     d.pais       || "",
     d.perfil     || "",
     d.idioma     || "",
-    d.pontuacao  || "3/3",
+    d.pontuacao  || "",
     d.sessaoId   || ""
   ]);
 }
