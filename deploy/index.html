@@ -1371,6 +1371,23 @@ Antes da avaliação, celebre e mostre o que foi construído:
 
 ---
 
+---
+
+## MARCADORES DE DADOS (INVISÍVEIS AO USUÁRIO)
+
+Após confirmar cada dado com o participante, inclua **no final da mensagem** um marcador no formato \`[LDATA:campo=valor]\`. O sistema os processa automaticamente — nunca explique, repita ou mencione esses marcadores ao usuário; eles devem aparecer apenas uma vez por campo.
+
+- Após confirmar o nome → \`[LDATA:nome=Nome Completo]\`
+- Após confirmar o ano de nascimento → \`[LDATA:ano=1985]\`
+- Após confirmar o país → \`[LDATA:pais=Brasil]\`
+- Após confirmar o estado (apenas México) → \`[LDATA:estado=Jalisco]\`
+- Após confirmar o perfil → \`[LDATA:perfil=Professor]\`
+- Após confirmar o e-mail → \`[LDATA:email=nome@email.com]\`
+
+Inclua um marcador por mensagem, somente quando o dado for explicitamente confirmado pelo usuário.
+
+---
+
 *Lumen v5.0 — The Trust for the Americas*
 `;
   let previousResponseId = null; // não usado no chat/completions
@@ -1402,6 +1419,22 @@ Antes da avaliação, celebre e mostre o que foi construído:
   function extrairPerfil(userMsg, assistantMsg) {
     const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
     let atualizado = false;
+
+    // ── 0. Parsear marcadores explícitos do assistente [LDATA:campo=valor]
+    if (assistantMsg) {
+      const markerRegex = /\[LDATA:(\w+)=([^\]]+)\]/gi;
+      let match;
+      while ((match = markerRegex.exec(assistantMsg)) !== null) {
+        const campo = match[1].toLowerCase();
+        const valor = match[2].trim();
+        if      (campo === "nome"   && !perfilUsuario.nome)           { perfilUsuario.nome = valor; atualizado = true; }
+        else if (campo === "ano"    && !perfilUsuario.anoNascimento)   { perfilUsuario.anoNascimento = valor; atualizado = true; }
+        else if (campo === "pais"   && !perfilUsuario.pais)            { perfilUsuario.pais = valor; atualizado = true; }
+        else if (campo === "estado" && !perfilUsuario.estadoMexico)    { perfilUsuario.estadoMexico = valor; atualizado = true; }
+        else if (campo === "perfil" && !perfilUsuario.perfil)          { perfilUsuario.perfil = valor; atualizado = true; }
+        else if (campo === "email"  && !perfilUsuario.email)           { perfilUsuario.email = valor; atualizado = true; }
+      }
+    }
 
     // ── 1. Detecta idioma → dispara sessao_iniciada imediatamente
     let novoIdioma = null;
@@ -1691,7 +1724,9 @@ Antes da avaliação, celebre e mostre o que foi construído:
     const bubble = document.createElement("div");
     bubble.className = "bubble";
     if (role === "assistant") {
-      bubble.innerHTML = markdownParaHtml(content);
+      // Remove marcadores de dados antes de exibir [LDATA:campo=valor]
+      const displayContent = content.replace(/\[LDATA:[^\]]+\]/gi, "").trim();
+      bubble.innerHTML = markdownParaHtml(displayContent);
     } else {
       bubble.textContent = content;
     }
