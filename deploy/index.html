@@ -1463,9 +1463,9 @@ Antes da avaliação, celebre e mostre o que foi construído:
       enviarDados({ tipo: "atualizacao_perfil", ...perfilUsuario, timestamp: new Date().toISOString() });
     }
 
-    // ── 7. Se email foi capturado agora → envia também evento de perfil completo
+    // ── 7. Se email foi capturado agora → envia perfil (mantém tipo "perfil" para compatibilidade com Apps Script)
     if (atualizado && perfilUsuario.email) {
-      enviarDados({ tipo: "perfil_completo", ...perfilUsuario, timestamp: new Date().toISOString() });
+      enviarDados({ tipo: "perfil", ...perfilUsuario, timestamp: new Date().toISOString() });
     }
 
     // ── 8. Detecta conclusão do curso (link do certificado na resposta do Lumen)

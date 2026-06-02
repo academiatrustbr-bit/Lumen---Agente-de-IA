@@ -383,19 +383,18 @@
 
         doc.addImage(jpegDataURL, "JPEG", 0, 0, W, H);
 
+        // Nome — dentro da caixa branca do template
         doc.setFont("helvetica", "bold");
         doc.setTextColor(...AZUL_MARINHO);
-        ajustarFonte(doc, nome, 56, W * 0.7);
-        doc.text(nome, W / 2, 645, { align: "center" });
+        ajustarFonte(doc, nome, 56, W * 0.72);
+        doc.text(nome, W / 2, 560, { align: "center" });
 
-        // Data de conclusão
+        // Data e Duração — abaixo do título do curso (fundo azul → texto branco)
         doc.setFont("helvetica", "normal");
-        doc.setFontSize(26);
+        doc.setFontSize(24);
+        doc.setTextColor(255, 255, 255);
         const dataHoje = formatarDataHoje();
-        doc.text(CFG.dataLabel + ": " + dataHoje, W / 2, 730, { align: "center" });
-
-        // Duração
-        doc.text(CFG.duracaoLabel + ": " + CFG.duracao, W / 2, 772, { align: "center" });
+        doc.text(CFG.dataLabel + ": " + dataHoje + "   |   " + CFG.duracaoLabel + ": " + CFG.duracao, W / 2, 1020, { align: "center" });
 
         // Salvar PDF
         doc.save(nomeArquivoSeguro(nome));

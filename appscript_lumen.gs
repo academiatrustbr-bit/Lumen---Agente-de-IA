@@ -16,8 +16,9 @@
 //   4. Quem tem acesso: Qualquer pessoa
 //   5. Clique em Implantar e copie a URL gerada
 //
-// ► A planilha criará 3 abas automaticamente na primeira execução:
-//   • Perfis        → dados coletados no início do curso
+// ► A planilha criará 4 abas automaticamente na primeira execução:
+//   • Sessões       → quem abriu o chat (1 linha por participante)
+//   • Perfis        → dados coletados ao longo do curso (nome, email, país…)
 //   • Conclusões    → quem passou na avaliação final
 //   • Certificados  → quem baixou o PDF do certificado
 
@@ -36,10 +37,12 @@ function doPost(e) {
     const dados = JSON.parse(e.postData.contents);
     const tipo  = (dados.tipo || "").toLowerCase();
 
-    if      (tipo === "perfil")      salvarPerfil(dados);
-    else if (tipo === "conclusao")   salvarConclusao(dados);
-    else if (tipo === "certificado") salvarCertificado(dados);
-    else throw new Error("Tipo desconhecido: " + tipo);
+    if      (tipo === "sessao_iniciada")  salvarSessao(dados);
+    else if (tipo === "perfil")           salvarPerfil(dados);
+    else if (tipo === "conclusao")        salvarConclusao(dados);
+    else if (tipo === "certificado")      salvarCertificado(dados);
+    else if (tipo === "atualizacao_perfil") { /* ignorado — dados parciais intermediários */ }
+    else Logger.log("Tipo não reconhecido (ignorado): " + tipo);
 
     return resposta({ status: "ok" });
 
@@ -60,8 +63,28 @@ function doGet() {
 }
 
 // ══════════════════════════════════════════════════════════════
-// ABA 1 · PERFIS
-// Dados coletados pelo Lumen no início do curso
+// ABA 1 · SESSÕES
+// Registrado assim que o participante abre o chat e escolhe idioma
+// ══════════════════════════════════════════════════════════════
+function salvarSessao(d) {
+  const cabecalhos = [
+    "Data e Hora",
+    "Idioma",
+    "ID de Sessão"
+  ];
+
+  const aba = garantirAba("Sessões", cabecalhos);
+
+  aba.appendRow([
+    agora(),
+    d.idioma    || "",
+    d.sessaoId  || ""
+  ]);
+}
+
+// ══════════════════════════════════════════════════════════════
+// ABA 2 · PERFIS
+// Dados coletados pelo Lumen ao longo do curso (enviado no email)
 // ══════════════════════════════════════════════════════════════
 function salvarPerfil(d) {
   const cabecalhos = [
@@ -204,6 +227,13 @@ function testar() {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     Logger.log("✅ Planilha encontrada: " + ss.getName());
 
+    // Simula início de sessão
+    salvarSessao({
+      idioma: "PT",
+      sessaoId: "teste-123"
+    });
+    Logger.log("✅ Aba Sessões criada/atualizada");
+
     // Simula um registro de perfil
     salvarPerfil({
       nome: "Teste Silva",
@@ -240,7 +270,7 @@ function testar() {
     });
     Logger.log("✅ Aba Certificados criada/atualizada");
 
-    Logger.log("🎉 Teste concluído com sucesso!");
+    Logger.log("🎉 Teste concluído com sucesso! Verifique as 4 abas na planilha.");
   } catch (err) {
     Logger.log("❌ Erro: " + err.message);
     Logger.log("👉 Verifique se SPREADSHEET_ID está correto.");
